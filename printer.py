@@ -1,49 +1,45 @@
-"""Sistem pakar diagnosis printer bermasalah (forward chaining).
 
-Jalankan interaktif : python printer.py
-Jalankan non-interaktif (untuk uji): python printer.py --ya "level tinta rendah" "hasil cetak pudar"
-Keluaran otomatis disimpan berurutan: hasil/hasil1.txt, hasil/hasil2.txt, ...
-"""
-import argparse
 import json
-import os
 
+NAMA_KB = "kb_printer.json"
 
-# ======================================================================
 # BAGIAN 1: FILE
-# ======================================================================
 def muat_kb(path):
-    """Baca file aturan (JSON)."""
+    """Baca file aturan (JSON) dan kembalikan sebagai dictionary."""
     with open(path, encoding="utf-8") as f:
         return json.load(f)
 
 
-def nama_berikutnya(folder="hasil"):
-    """Cari nama file hasil berikutnya: hasil1.txt, hasil2.txt, ..."""
-    os.makedirs(folder, exist_ok=True)   # buat folder kalau belum ada
-
-    terbesar = 0
-    for nama in os.listdir(folder):
-        if nama.startswith("hasil") and nama.endswith(".txt"):
-            angka = nama[len("hasil"):-len(".txt")]   # "hasil3.txt" -> "3"
-            if angka.isdigit():
-                terbesar = max(terbesar, int(angka))
-
-    return os.path.join(folder, "hasil" + str(terbesar + 1) + ".txt")
+def file_ada(nama):
+    """True kalau file dengan nama itu sudah ada."""
+    try:
+        f = open(nama, encoding="utf-8")
+        f.close()
+        return True
+    except FileNotFoundError:
+        return False
 
 
-def simpan_hasil(keluaran, tujuan=None):
-    """Tulis seluruh keluaran ke file txt, kembalikan nama file-nya."""
-    if tujuan is None:
-        tujuan = nama_berikutnya()
-    with open(tujuan, "w", encoding="utf-8") as f:
-        f.write("\n".join(keluaran) + "\n")
-    return tujuan
+def nama_berikutnya():
+    """Cari nama file hasil yang belum dipakai: hasil1.txt, hasil2.txt, ..."""
+    nomor = 1
+    while file_ada("hasil/hasil" + str(nomor) + ".txt"):
+        nomor += 1
+    return "hasil/hasil" + str(nomor) + ".txt"
 
 
-# ======================================================================
+def simpan_hasil(keluaran):
+    """Tulis seluruh keluaran ke file txt berurutan."""
+    tujuan = nama_berikutnya()
+    try:
+        with open(tujuan, "w", encoding="utf-8") as f:
+            f.write("\n".join(keluaran) + "\n")
+        print(f"\n(keluaran disimpan ke {tujuan})")
+    except FileNotFoundError:
+        print("\n(folder 'hasil' belum ada, buat dulu foldernya lalu jalankan lagi)")
+
+
 # BAGIAN 2: MESIN FORWARD CHAINING
-# ======================================================================
 def fakta_dasar(kb):
     """Fakta yang tidak pernah menjadi hasil aturan -> ditanyakan ke user."""
     semua_hasil = []
@@ -111,9 +107,8 @@ def kesimpulan_akhir(asal):
     return akhir
 
 
-# ======================================================================
+
 # BAGIAN 3: TAMPILAN
-# ======================================================================
 def tulis(keluaran, teks=""):
     """Cetak ke layar dan catat ke daftar keluaran (untuk disimpan ke txt)."""
     print(teks)
@@ -183,29 +178,16 @@ def tampilkan_hasil(kb, fakta, memori, asal, log, keluaran):
     tulis(keluaran, "\nCatatan: " + kb["batas"])
 
 
-# ======================================================================
 # BAGIAN 4: PROGRAM UTAMA
-# ======================================================================
-def baca_argumen():
-    ap = argparse.ArgumentParser()
-    ap.add_argument("--kb", default="kb_printer.json")
-    ap.add_argument("--ya", nargs="*", help="fakta yang dijawab ya (tanpa tanya)")
-    ap.add_argument("--simpan", default=None, help="nama file txt (default: otomatis hasil/hasil1.txt, hasil2.txt, ...)")
-    return ap.parse_args()
-
-
 def main():
-    args = baca_argumen()
-    kb = muat_kb(args.kb)
+    kb = muat_kb(NAMA_KB)
     keluaran = []
 
     tulis(keluaran, kb["judul"])
-    fakta = args.ya if args.ya is not None else tanya_fakta(kb, keluaran)
+    fakta = tanya_fakta(kb, keluaran)
     memori, asal, log = forward_chaining(kb, fakta)
     tampilkan_hasil(kb, fakta, memori, asal, log, keluaran)
-
-    tujuan = simpan_hasil(keluaran, args.simpan)
-    print(f"\n(keluaran disimpan ke {tujuan})")
+    simpan_hasil(keluaran)
 
 
 if __name__ == "__main__":
