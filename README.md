@@ -101,4 +101,4 @@ Kasus 4 (tidak menghasilkan kesimpulan):
 Pengetahuan dalam sistem ini berasal dari dokumen dukungan resmi Microsoft dan Epson (tiga artikel di atas), sehingga hanya berlaku untuk printer inkjet yang dipakai dengan Windows dan hanya mencakup paper jam, penurunan kualitas cetak, serta antrean cetak macet. Kasus di luar itu, misalnya kerusakan perangkat keras atau printer laser, tidak tercakup. Hasilnya adalah saran awal, bukan keputusan akhir; bila masalah berlanjut, hubungi teknisi atau dukungan resmi produsen. Catatan ini juga ditampilkan oleh program.
 
 ## Penggunaan alat bantu AI
-Claude (Anthropic) digunakan sebagai alat bantu untuk menyusun kerangka aturan, kode program, dan draf README.
+Saya menggunakan Claude (AI) sebagai alat bantu untuk menyusun draf aturan dari sumber dan menulis kode awal program. Aturan dan kode tersebut saya periksa sendiri, dan saya memahami cara kerjanya
