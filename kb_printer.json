@@ -1,0 +1,101 @@
+{
+  "judul": "Diagnosis printer bermasalah",
+  "batas": "Aturan berasal dari dokumen dukungan resmi Microsoft dan Epson (3 artikel) dan hanya mencakup paper jam, penurunan kualitas cetak, dan antrean cetak macet pada printer inkjet yang dipakai dengan Windows. Hasilnya saran awal, bukan keputusan akhir; hubungi teknisi bila masalah berlanjut.",
+  "sumber": {
+    "S1": "Fix printer stopped due to paper jam errors in Windows, Microsoft Support, https://support.microsoft.com/en-us/windows/hardware/printer/fix-printer-stopped-due-to-paper-jam-errors-in-windows, diakses 12 Nov 2026",
+    "S2": "When to clean your print head, Epson Europe, https://www.epson.eu/en_EU/faq/KA-01531/contents, diakses 12 Nov 2026",
+    "S3": "Fix print job stuck in queue errors in Windows, Microsoft Support, https://support.microsoft.com/en-us/windows/fix-print-job-stuck-in-queue-errors-in-windows-9ee21bad-4488-45b5-b497-2d8299bd74aa, diakses 12 Nov 2026"
+  },
+  "pertanyaan": {
+    "pesan paper jam muncul": "Apakah muncul pesan paper jam di layar printer/komputer?",
+    "kertas terlihat menyangkut": "Apakah kertas terlihat menyangkut di dalam printer?",
+    "error tetap setelah kertas dikeluarkan": "Apakah error paper jam tetap muncul setelah kertas dikeluarkan?",
+    "hasil cetak bergaris atau ada celah": "Apakah hasil cetak bergaris atau ada bagian yang kosong?",
+    "hasil cetak pudar": "Apakah hasil cetak pudar?",
+    "hasil nozzle check ada celah": "Apakah hasil nozzle check menunjukkan celah atau warna hilang?",
+    "level tinta rendah": "Apakah level tinta rendah?",
+    "dokumen tertahan di antrean": "Apakah dokumen tertahan di antrean cetak?",
+    "dokumen tidak kunjung tercetak": "Apakah dokumen tidak kunjung tercetak?",
+    "tetap macet setelah job dibatalkan": "Apakah antrean tetap macet setelah semua job dibatalkan?"
+  },
+  "saran": {
+    "kertas macet": "Matikan printer dan cabut kabelnya, lalu keluarkan kertas dengan pelan dari nampan masukan, pintu belakang, dan area kartrid.",
+    "sisa kertas atau sensor jam masih aktif": "Periksa jalur kertas untuk sobekan kecil, putar dan bersihkan roller, lalu nyalakan ulang printer.",
+    "tinta perlu diisi atau diganti": "Isi atau ganti tinta dulu sebelum membersihkan kepala cetak.",
+    "kepala cetak tersumbat": "Jalankan head cleaning (hanya bila tinta cukup), lalu cetak nozzle check lagi.",
+    "antrean cetak macet": "Batalkan semua job di antrean cetak, lalu coba cetak lagi.",
+    "print spooler perlu direstart": "Restart layanan Print Spooler (services.msc), lalu cetak ulang."
+  },
+  "aturan": [
+    {
+      "id": "R1",
+      "jika": [
+        "pesan paper jam muncul",
+        "kertas terlihat menyangkut"
+      ],
+      "mode": "atau",
+      "maka": "kertas macet",
+      "sumber": "S1"
+    },
+    {
+      "id": "R2",
+      "jika": [
+        "kertas macet",
+        "error tetap setelah kertas dikeluarkan"
+      ],
+      "mode": "dan",
+      "maka": "sisa kertas atau sensor jam masih aktif",
+      "sumber": "S1"
+    },
+    {
+      "id": "R3",
+      "jika": [
+        "hasil cetak bergaris atau ada celah",
+        "hasil cetak pudar"
+      ],
+      "mode": "atau",
+      "maka": "kualitas cetak menurun",
+      "sumber": "S2"
+    },
+    {
+      "id": "R4",
+      "jika": [
+        "kualitas cetak menurun",
+        "level tinta rendah"
+      ],
+      "mode": "dan",
+      "maka": "tinta perlu diisi atau diganti",
+      "sumber": "S2"
+    },
+    {
+      "id": "R5",
+      "jika": [
+        "kualitas cetak menurun",
+        "hasil nozzle check ada celah"
+      ],
+      "mode": "dan",
+      "maka": "kepala cetak tersumbat",
+      "sumber": "S2"
+    },
+    {
+      "id": "R6",
+      "jika": [
+        "dokumen tertahan di antrean",
+        "dokumen tidak kunjung tercetak"
+      ],
+      "mode": "atau",
+      "maka": "antrean cetak macet",
+      "sumber": "S3"
+    },
+    {
+      "id": "R7",
+      "jika": [
+        "antrean cetak macet",
+        "tetap macet setelah job dibatalkan"
+      ],
+      "mode": "dan",
+      "maka": "print spooler perlu direstart",
+      "sumber": "S3"
+    }
+  ]
+}

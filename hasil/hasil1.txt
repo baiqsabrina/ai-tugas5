@@ -1,0 +1,29 @@
+Diagnosis printer bermasalah
+Jawab y/t.
+1. Apakah muncul pesan paper jam di layar printer/komputer? (y/t) > y
+2. Apakah kertas terlihat menyangkut di dalam printer? (y/t) > t
+3. Apakah error paper jam tetap muncul setelah kertas dikeluarkan? (y/t) > y
+4. Apakah hasil cetak bergaris atau ada bagian yang kosong? (y/t) > t
+5. Apakah hasil cetak pudar? (y/t) > t
+6. Apakah level tinta rendah? (y/t) > t
+7. Apakah hasil nozzle check menunjukkan celah atau warna hilang? (y/t) > t
+8. Apakah dokumen tertahan di antrean cetak? (y/t) > t
+9. Apakah dokumen tidak kunjung tercetak? (y/t) > t
+10. Apakah antrean tetap macet setelah semua job dibatalkan? (y/t) > t
+
+Fakta awal: pesan paper jam muncul, error tetap setelah kertas dikeluarkan
+
+Siklus 1: R1 -> kertas macet
+Siklus 2: R2 -> sisa kertas atau sensor jam masih aktif
+Siklus 3: tidak ada aturan baru, berhenti
+
+Kesimpulan: sisa kertas atau sensor jam masih aktif
+Saran:
+  - sisa kertas atau sensor jam masih aktif: Periksa jalur kertas untuk sobekan kecil, putar dan bersihkan roller, lalu nyalakan ulang printer.
+Alasan:
+  sisa kertas atau sensor jam masih aktif  <- R2 (kertas macet, error tetap setelah kertas dikeluarkan) [S1]
+    kertas macet  <- R1 (pesan paper jam muncul) [S1]
+Sumber:
+  S1: Fix printer stopped due to paper jam errors in Windows, Microsoft Support, https://support.microsoft.com/en-us/windows/hardware/printer/fix-printer-stopped-due-to-paper-jam-errors-in-windows, diakses 12 Nov 2026
+
+Catatan: Aturan berasal dari dokumen dukungan resmi Microsoft dan Epson (3 artikel) dan hanya mencakup paper jam, penurunan kualitas cetak, dan antrean cetak macet pada printer inkjet yang dipakai dengan Windows. Hasilnya saran awal, bukan keputusan akhir; hubungi teknisi bila masalah berlanjut.

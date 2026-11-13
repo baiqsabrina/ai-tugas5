@@ -1,0 +1,29 @@
+Diagnosis printer bermasalah
+Jawab y/t.
+1. Apakah muncul pesan paper jam di layar printer/komputer? (y/t) > t
+2. Apakah kertas terlihat menyangkut di dalam printer? (y/t) > t
+3. Apakah error paper jam tetap muncul setelah kertas dikeluarkan? (y/t) > t
+4. Apakah hasil cetak bergaris atau ada bagian yang kosong? (y/t) > t
+5. Apakah hasil cetak pudar? (y/t) > y
+6. Apakah level tinta rendah? (y/t) > y
+7. Apakah hasil nozzle check menunjukkan celah atau warna hilang? (y/t) > t
+8. Apakah dokumen tertahan di antrean cetak? (y/t) > t
+9. Apakah dokumen tidak kunjung tercetak? (y/t) > t
+10. Apakah antrean tetap macet setelah semua job dibatalkan? (y/t) > t
+
+Fakta awal: hasil cetak pudar, level tinta rendah
+
+Siklus 1: R3 -> kualitas cetak menurun
+Siklus 2: R4 -> tinta perlu diisi atau diganti
+Siklus 3: tidak ada aturan baru, berhenti
+
+Kesimpulan: tinta perlu diisi atau diganti
+Saran:
+  - tinta perlu diisi atau diganti: Isi atau ganti tinta dulu sebelum membersihkan kepala cetak.
+Alasan:
+  tinta perlu diisi atau diganti  <- R4 (kualitas cetak menurun, level tinta rendah) [S2]
+    kualitas cetak menurun  <- R3 (hasil cetak pudar) [S2]
+Sumber:
+  S2: When to clean your print head, Epson Europe, https://www.epson.eu/en_EU/faq/KA-01531/contents, diakses 12 Nov 2026
+
+Catatan: Aturan berasal dari dokumen dukungan resmi Microsoft dan Epson (3 artikel) dan hanya mencakup paper jam, penurunan kualitas cetak, dan antrean cetak macet pada printer inkjet yang dipakai dengan Windows. Hasilnya saran awal, bukan keputusan akhir; hubungi teknisi bila masalah berlanjut.
